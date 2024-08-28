@@ -1,0 +1,362 @@
+resource_registry:
+  # FirstBoot Script for initial configuration (i.e. Disk Wipe, Root Password, SSH Root Access)
+  OS::TripleO::NodeUserData:                ../firstboot/first-boot.yaml
+
+  # Compute Role Pre-Configuration hook for KSM, Multipath, and vHost-Net Zero Copy
+  OS::TripleO::ComputeExtraConfigPre:       ../extraconfig/pre-config/compute.yaml
+
+  # Compute HA Role Pre-Configuration hook for Nova Ephemeral NFS, KSM, Multipath, and vHost-Net Zero Copy
+  OS::TripleO::ComputeHAExtraConfigPre:     ../extraconfig/pre-config/compute_ha.yaml
+
+  # Compute HP Role Pre-Configuration hook for Multipath and vHost-Net Zero Copy
+  OS::TripleO::ComputeHPExtraConfigPre:     ../extraconfig/pre-config/compute_hp.yaml
+
+  # Compute HPHA Role Pre-Configuration hook for Nova Ephemeral NFS, Multipath, and vHost-Net Zero Copy
+  OS::TripleO::ComputeHPHAExtraConfigPre:   ../extraconfig/pre-config/compute_hp_ha.yaml
+
+  # Controller Role Pre-Configuration hook for the NFS mounts (Glance, Glance Staging, and Gnocchi) and Multipath
+  OS::TripleO::ControllerExtraConfigPre:    ../extraconfig/pre-config/controller.yaml
+
+  # Controller Role Post-Configuration hook for the Heat cache, and the fix for the Gnocchi permission with NFS
+  OS::TripleO::Tasks::ControllerPostConfig: ../extraconfig/post-config/controller.yaml
+
+parameter_defaults:
+  # ExtraConfig are Puppet Hieradata variables that will be used when the puppet manifests are executed
+  ControllerExtraConfig:
+    # Increase HAProxy timeout to 10m for server and client, this is for VMs with very large image
+    tripleo::haproxy::haproxy_default_timeout: [ 'http-request 40s',  'queue 4m',  'connect 40s', 'client 4m', 'server 4m', 'check 40s' ]
+    # Increase HAProxy total maximum connections
+    tripleo::haproxy::haproxy_global_maxconn: 5120001
+    # Set each HAProxy backend to a lower value in order to queue requests
+    tripleo::haproxy::haproxy_default_maxconn: 20480
+    # Keystone token expiration set at 4 hours
+    keystone::token_expiration: 14440
+    # Heat re-auth model using trust tokens
+    # https://github.com/openstack/heat/blob/stable/queens/doc/source/admin/auth-model.rst#authorization-model-configuration
+    heat::engine::reauthentication_auth_method: trusts
+    # Enable Nova Scheduler compute mode fill in model
+    # 1.0 -> spreading (default)
+    # -1.0 -> stacking
+    nova::scheduler::filter::ram_weight_multiplier: 1.0
+    aodh::config::aodh_config:
+        # oslo.messaging config
+        DEFAULT/rpc_conn_pool_size:
+            value: '200'
+        # oslo.messaging config
+        DEFAULT/executor_thread_pool_size:
+            value: '200'
+    cinder::config::cinder_config:
+        # Enable multipath for image to volume and volumo to image operations
+        DEFAULT/use_multipath_for_image_xfer:
+            value: 'true'
+        # oslo.messaging config
+        DEFAULT/rpc_conn_pool_size:
+            value: '200'
+        # oslo.messaging config
+        DEFAULT/executor_thread_pool_size:
+            value: '200'
+    glance::config::api_config:
+        # oslo.messaging config
+        DEFAULT/rpc_conn_pool_size:
+            value: '200'
+        # oslo.messaging config
+        DEFAULT/executor_thread_pool_size:
+            value: '200'
+    heat::config::heat_config:
+        # oslo.messaging config
+        DEFAULT/rpc_conn_pool_size:
+            value: '200'
+        # oslo.messaging config
+        DEFAULT/executor_thread_pool_size:
+            value: '200'
+        # Heat Max stacks per tenant
+        DEFAULT/max_stacks_per_tenant:
+            value: '200'
+    keystone::config::keystone_config:
+        # oslo.messaging config
+        DEFAULT/rpc_conn_pool_size:
+            value: '200'
+        # oslo.messaging config
+        DEFAULT/executor_thread_pool_size:
+            value: '200'
+        # memcached everywhere
+        catalog/caching:
+            value: true
+        # memcached everywhere
+        domain_config/caching:
+            value: true
+        # memcached everywhere
+        federation/caching:
+            value: true
+        # memcached everywhere
+        revoke/caching:
+            value: true
+        # memcached everywhere
+        role/caching:
+            value: true
+        # memcached everywhere
+        token/cache_on_issue:
+            value: true
+        # memcached everywhere
+        identity/caching:
+            value: true
+        # memcached everywhere
+        identity/cache_time:
+            value: '600'
+        # Keystone Password driver
+        identity/password_hash_algorithm:
+            value: pbkdf2_sha512
+    neutron::config::server_config:
+        # oslo.messaging config
+        DEFAULT/rpc_conn_pool_size:
+            value: '200'
+        # oslo.messaging config
+        DEFAULT/executor_thread_pool_size:
+            value: '200'
+    nova::config::nova_config:
+        # oslo.messaging config
+        DEFAULT/rpc_conn_pool_size:
+            value: '200'
+        # oslo.messaging config
+        DEFAULT/executor_thread_pool_size:
+            value: '200'
+    octavia::config::octavia_config:
+        # oslo.messaging config
+        DEFAULT/rpc_conn_pool_size:
+            value: '200'
+        # oslo.messaging config
+        DEFAULT/executor_thread_pool_size:
+            value: '200'
+
+    # oslo.messaging
+    # Heat's rpc_response_timeout is already part of OSP13
+    # Glance's rpc_response_timeout cannot be done
+    aodh::rpc_response_timeout: 600
+    cinder::rpc_response_timeout: 600
+    keystone::rpc_response_timeout: 600
+    neutron::rpc_response_timeout: 600
+    nova::rpc_response_timeout: 600
+    octavia::rpc_response_timeout: 600
+
+    # oslo.db
+    # All OpenStack services database_db_max_retries and database_max_retries are already part of OSP13
+    aodh::db::database_idle_timeout: 3600
+    aodh::db::database_min_pool_size: 100
+    aodh::db::database_max_pool_size: 200
+    aodh::db::database_max_overflow: 300
+    cinder::db::database_idle_timeout: 3600
+    cinder::db::database_min_pool_size: 100
+    cinder::db::database_max_pool_size: 200
+    cinder::db::database_max_overflow: 300
+    keystone::db::database_idle_timeout: 3600
+    keystone::db::database_min_pool_size: 100
+    keystone::db::database_max_pool_size: 200
+    keystone::db::database_max_overflow: 300
+    glance::api::db::database_idle_timeout: 3600
+    glance::api::db::database_min_pool_size: 100
+    glance::api::db::database_max_pool_size: 200
+    glance::api::db::database_max_overflow: 300
+    glance::api::db::database_db_max_retries: -1
+    glance::api::db::database_max_retries: -1
+    heat::db::database_idle_timeout: 3600
+    heat::db::database_min_pool_size: 100
+    heat::db::database_max_pool_size: 200
+    heat::db::database_max_overflow: 300
+    neutron::db::database_idle_timeout: 3600
+    neutron::db::database_min_pool_size: 100
+    neutron::db::database_max_pool_size: 200
+    neutron::db::database_max_overflow: 300
+    nova::db::database_idle_timeout: 3600
+    nova::db::database_min_pool_size: 100
+    nova::db::database_max_pool_size: 200
+    nova::db::database_max_overflow: 300
+    oslo::db::use_db_reconnect: true
+
+    # Memcached everywhere
+    # https://review.openstack.org/#/c/634505/
+    # Heat cache cannot be enabled using puppet so it's done through a post-config
+    aodh::keystone::authtoken::memcached_servers: 'overcloud-controller-0.internalapi:11211,overcloud-controller-1.internalapi:11211,overcloud-controller-2.internalapi:11211'
+    aodh::keystone::authtoken::memcache_pool_conn_get_timeout: 1
+    aodh::keystone::authtoken::memcache_pool_dead_retry: 600
+    aodh::keystone::authtoken::memcache_pool_socket_timeout: 1
+    aodh::keystone::authtoken::memcache_pool_unused_timeout: 10
+    cinder::keystone::authtoken::memcached_servers: 'overcloud-controller-0.internalapi:11211,overcloud-controller-1.internalapi:11211,overcloud-controller-2.internalapi:11211'
+    cinder::keystone::authtoken::memcache_pool_conn_get_timeout: 1
+    cinder::keystone::authtoken::memcache_pool_dead_retry: 600
+    cinder::keystone::authtoken::memcache_pool_socket_timeout: 1
+    cinder::keystone::authtoken::memcache_pool_unused_timeout: 10
+    glance::api::authtoken::memcached_servers: 'overcloud-controller-0.internalapi:11211,overcloud-controller-1.internalapi:11211,overcloud-controller-2.internalapi:11211'
+    glance::api::authtoken::memcache_pool_conn_get_timeout: 1
+    glance::api::authtoken::memcache_pool_dead_retry: 600
+    glance::api::authtoken::memcache_pool_socket_timeout: 1
+    glance::api::authtoken::memcache_pool_unused_timeout: 10
+    heat::keystone::authtoken::memcached_servers: 'overcloud-controller-0.internalapi:11211,overcloud-controller-1.internalapi:11211,overcloud-controller-2.internalapi:11211'
+    heat::keystone::authtoken::memcache_pool_conn_get_timeout: 1
+    heat::keystone::authtoken::memcache_pool_dead_retry: 600
+    heat::keystone::authtoken::memcache_pool_socket_timeout: 1
+    heat::keystone::authtoken::memcache_pool_unused_timeout: 10
+    keystone::cache_memcache_servers: 'overcloud-controller-0.internalapi:11211,overcloud-controller-1.internalapi:11211,overcloud-controller-2.internalapi:11211'
+    keystone::memcache_dead_retry: 600
+    keystone::memcache_socket_timeout: 1
+    keystone::memcache_pool_unused_timeout: 10
+    keystone::memcache_pool_connection_get_timeout: 1
+    keystone::cache_enabled: true
+    keystone::cache_backend: 'oslo_cache.memcache_pool'
+    keystone::token_caching: true
+    neutron::keystone::authtoken::memcached_servers: 'overcloud-controller-0.internalapi:11211,overcloud-controller-1.internalapi:11211,overcloud-controller-2.internalapi:11211'
+    neutron::keystone::authtoken::memcache_pool_conn_get_timeout: 1
+    neutron::keystone::authtoken::memcache_pool_dead_retry: 600
+    neutron::keystone::authtoken::memcache_pool_socket_timeout: 1
+    neutron::keystone::authtoken::memcache_pool_unused_timeout: 10
+    nova::keystone::authtoken::memcached_servers: 'overcloud-controller-0.internalapi:11211,overcloud-controller-1.internalapi:11211,overcloud-controller-2.internalapi:11211'
+    nova::keystone::authtoken::memcache_pool_conn_get_timeout: 1
+    nova::keystone::authtoken::memcache_pool_dead_retry: 600
+    nova::keystone::authtoken::memcache_pool_socket_timeout: 1
+    nova::keystone::authtoken::memcache_pool_unused_timeout: 10
+    swift::proxy::authtoken::memcached_servers: 'overcloud-controller-0.internalapi:11211,overcloud-controller-1.internalapi:11211,overcloud-controller-2.internalapi:11211'
+    swift::proxy::authtoken::memcache_pool_conn_get_timeout: 1
+    swift::proxy::authtoken::memcache_pool_dead_retry: 600
+    swift::proxy::authtoken::memcache_pool_socket_timeout: 1
+    swift::proxy::authtoken::memcache_pool_unused_timeout: 10
+    nova::metadata::novajoin::authtoken::memcached_servers: 'overcloud-controller-0.internalapi:11211,overcloud-controller-1.internalapi:11211,overcloud-controller-2.internalapi:11211'
+    nova::metadata::novajoin::authtoken::memcache_pool_conn_get_timeout: 1
+    nova::metadata::novajoin::authtoken::memcache_pool_dead_retry: 600
+    nova::metadata::novajoin::authtoken::memcache_pool_socket_timeout: 1
+    nova::metadata::novajoin::authtoken::memcache_pool_unused_timeout: 10
+    gnocchi::keystone::authtoken::memcached_servers: 'overcloud-controller-0.internalapi:11211,overcloud-controller-1.internalapi:11211,overcloud-controller-2.internalapi:11211'
+    gnocchi::keystone::authtoken::memcache_pool_conn_get_timeout: 1
+    gnocchi::keystone::authtoken::memcache_pool_dead_retry: 600
+    gnocchi::keystone::authtoken::memcache_pool_socket_timeout: 1
+    gnocchi::keystone::authtoken::memcache_pool_unused_timeout: 10
+    nova::keystone::authtoken::memcached_servers: 'overcloud-controller-0.internalapi:11211,overcloud-controller-1.internalapi:11211,overcloud-controller-2.internalapi:11211'
+    nova::keystone::authtoken::memcache_pool_conn_get_timeout: 1
+    nova::keystone::authtoken::memcache_pool_dead_retry: 600
+    nova::keystone::authtoken::memcache_pool_socket_timeout: 1
+    nova::keystone::authtoken::memcache_pool_unused_timeout: 10
+    nova::cache::enabled: true
+    nova::cache::backend: 'oslo_cache.memcache_pool'
+    nova::cache::memcache_servers: 'overcloud-controller-0.internalapi:11211,overcloud-controller-1.internalapi:11211,overcloud-controller-2.internalapi:11211'
+    nova::cache::memcache_dead_retry: 600
+    nova::cache::memcache_socket_timeout: 1
+    nova::cache::memcache_pool_unused_timeout: 10
+    nova::cache::memcache_pool_connection_get_timeout: 1
+    nova::keystone::authtoken::memcached_servers: 'overcloud-controller-0.internalapi:11211,overcloud-controller-1.internalapi:11211,overcloud-controller-2.internalapi:11211'
+    nova::keystone::authtoken::memcache_pool_conn_get_timeout: 1
+    nova::keystone::authtoken::memcache_pool_dead_retry: 600
+    nova::keystone::authtoken::memcache_pool_socket_timeout: 1
+    nova::keystone::authtoken::memcache_pool_unused_timeout: 10
+    octavia::keystone::authtoken::memcached_servers: 'overcloud-controller-0.internalapi:11211,overcloud-controller-1.internalapi:11211,overcloud-controller-2.internalapi:11211'
+    octavia::keystone::authtoken::memcache_pool_conn_get_timeout: 1
+    octavia::keystone::authtoken::memcache_pool_dead_retry: 600
+    octavia::keystone::authtoken::memcache_pool_socket_timeout: 1
+    octavia::keystone::authtoken::memcache_pool_unused_timeout: 10
+
+    # RabbitMQ Tuning
+    rabbitmq::tcp_backlog: 8192
+    rabbitmq::tcp_sndbuf: 196608
+    rabbitmq::tcp_recbuf: 196608
+
+  # {role}Parameters defines Role specific Heat variables used during the deployment
+  ControllerParameters:
+    # TODO
+    # amd_iommu=off due to filesystem corruption issue, once fixed remove the KernelArgs Parameter
+    KernelArgs: "amd_iommu=off"
+    # This parameter is already specified in the OVN DVR-HA templates but since we're overwriting any ControllerParameters defined in the templates we need to copy/paste those
+    OVNCMSOptions: "enable-chassis-as-gw"
+    # Custom Kernel tunables
+    ExtraSysctlSettings:
+        # RabbitMQ kernel network stack tuning
+        net.ipv4.tcp_tw_reuse:
+          value: 1
+        # RabbitMQ kernel network stack tuning
+        net.ipv4.tcp_fin_timeout:
+          value: 30
+        # RabbitMQ kernel network stack tuning
+        net.ipv4.tcp_max_syn_backlog:
+          value: 16384
+        # RabbitMQ kernel network stack tuning
+        net.core.somaxconn:
+          value: 8192
+
+  # Increase default MySQL connection limit from 4096 to 50000
+  # 1048576 <- current ulimit in MySQL
+  MysqlMaxConnections: 50000
+  # Heat cronjob to purge deleted heat stacks from the database
+  HeatCronPurgeDeletedAge: 5
+  # Cinder cronjob to purge deleted volumes from the database
+  CinderCronDbPurgeAge: 5
+  # Nova cron on the hour frequency
+  NovaCronArchiveDeleteRowsHour: '*'
+  # Nova Max DB rows to archive
+  NovaCronArchiveDeleteRowsMaxRows: 10000
+  # Maximum resources allowed per top-level stack.
+  HeatMaxResourcesPerStack: -1
+
+  ComputeExtraConfig:
+    # CPU Overcommit Ratio
+    nova::cpu_allocation_ratio: 4.0 # As per HLD
+    # Memory Overcommit Ratio
+    nova::ram_allocation_ratio: 1.5 # As per HLD
+    # Disk Overcommit Ratio
+    nova::disk_allocation_ratio: 0.9 # Leave some space for logs and snapshots
+    # Disable VM Disk image forced conversion from any format to RAW
+    nova::compute::force_raw_images: false
+    # Creating some volumes can take more than 60 retries (default value)
+    nova::block_device_allocate_retries: '600'
+    # Making sure that each retry will happen after 3 seconds
+    nova::block_device_allocate_retries_interval: '3'
+    # Configure the vCPU profile
+    # https://libvirt.org/formatdomain.html#elementsCPU
+    nova::compute::libvirt::libvirt_cpu_mode: 'host-model'
+
+  ComputeHAExtraConfig:
+    # CPU Overcommit Ratio
+    nova::cpu_allocation_ratio: 4.0 # As per HLD
+    # Memory Overcommit Ratio
+    nova::ram_allocation_ratio: 1.5 # As per HLD
+    # Disk Overcommit Ratio
+    nova::disk_allocation_ratio: 100.0 # Fake Nova Scheduler Driver math since here we have NFS
+    # Disable VM Disk image forced conversion from any format to RAW
+    nova::compute::force_raw_images: false
+    # Creating some volumes can take more than 60 retries (default value)
+    nova::block_device_allocate_retries: '600'
+    # Making sure that each retry will happen after 3 seconds
+    nova::block_device_allocate_retries_interval: '3'
+    # Configure the vCPU profile
+    # https://libvirt.org/formatdomain.html#elementsCPU
+    nova::compute::libvirt::libvirt_cpu_mode: 'host-model'
+
+  ComputeHPExtraConfig:
+    # CPU Overcommit Ratio
+    nova::cpu_allocation_ratio: 1.0 # HP compute role does not allow any overprovisioning
+    # Memory Overcommit Ratio
+    nova::ram_allocation_ratio: 1.0 # HP compute role does not allow any overprovisioning
+    # Disk Overcommit Ratio
+    nova::disk_allocation_ratio: 0.9 # Leave some space for logs and snapshots
+    # Disable VM Disk image forced conversion from any format to RAW
+    nova::compute::force_raw_images: false
+    # Creating some volumes can take more than 60 retries (default value)
+    nova::block_device_allocate_retries: '600'
+    # Making sure that each retry will happen after 3 seconds
+    nova::block_device_allocate_retries_interval: '3'
+    # Configure the vCPU profile
+    # https://libvirt.org/formatdomain.html#elementsCPU
+    nova::compute::libvirt::libvirt_cpu_mode: 'host-model'
+
+  ComputeHPHAExtraConfig:
+    # CPU Overcommit Ratio
+    nova::cpu_allocation_ratio: 1.0 # HP compute role does not allow any overprovisioning
+    # Memory Overcommit Ratio
+    nova::ram_allocation_ratio: 1.0 # HP compute role does not allow any overprovisioning
+    # Disk Overcommit Ratio
+    nova::disk_allocation_ratio: 100.0 # Fake Nova Scheduler Driver math since here we have NFS
+    # Disable VM Disk image forced conversion from any format to RAW
+    nova::compute::force_raw_images: false
+    # Creating some volumes can take more than 60 retries (default value)
+    nova::block_device_allocate_retries: '600'
+    # Making sure that each retry will happen after 3 seconds
+    nova::block_device_allocate_retries_interval: '3'
+    # Configure the vCPU profile
+    # https://libvirt.org/formatdomain.html#elementsCPU
+    nova::compute::libvirt::libvirt_cpu_mode: 'host-model'
+

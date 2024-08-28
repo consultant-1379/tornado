@@ -1,0 +1,68 @@
+parameter_defaults:
+  EnableFencing: true
+  FencingConfig:
+    devices:
+    # controller-node-0
+    - agent: fence_ipmilan
+      host_mac: e4:43:4b:5a:e4:10
+      params:
+        login: root
+        ipaddr: 10.224.53.164
+        ipport: 623
+        passwd: calvin
+        lanplus: 1
+    # controller-node-1
+    - agent: fence_ipmilan
+      host_mac: e4:43:4b:5a:d8:40
+      params:
+        login: root
+        ipaddr: 10.224.53.165
+        ipport: 623
+        passwd: calvin
+        lanplus: 1
+    # controller-node-2
+    - agent: fence_ipmilan
+      host_mac: e4:43:4b:5a:d5:60
+      params:
+        login: root
+        ipaddr: 10.224.53.166
+        ipport: 623
+        passwd: calvin
+        lanplus: 1
+    # compute-node-std-ha-0
+    - agent: fence_ipmilan
+      host_mac: e4:43:4b:5a:e4:40
+      params:
+        login: root
+        ipaddr: 10.224.53.178
+        ipport: 623
+        passwd: calvin
+        lanplus: 1
+    # compute-node-std-ha-1
+    - agent: fence_ipmilan
+      host_mac: e4:43:4b:5a:e2:50
+      params:
+        login: root
+        ipaddr: 10.224.53.179
+        ipport: 623
+        passwd: calvin
+        lanplus: 1
+    # compute-node-hp-ha-0
+    - agent: fence_ipmilan
+      host_mac: e4:43:4b:5b:3c:50
+      params:
+        login: root
+        ipaddr: 10.224.53.181
+        ipport: 623
+        passwd: calvin
+        lanplus: 1
+    # compute-node-hp-ha-1
+    - agent: fence_ipmilan
+      host_mac: e4:43:4b:5a:d8:20
+      params:
+        login: root
+        ipaddr: 10.224.53.182
+        ipport: 623
+        passwd: calvin
+        lanplus: 1
+

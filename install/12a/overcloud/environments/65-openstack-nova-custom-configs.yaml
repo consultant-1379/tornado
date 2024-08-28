@@ -1,0 +1,11 @@
+parameter_defaults:
+  # Nova Scheduler filters
+  NovaSchedulerDefaultFilters: ['RetryFilter','AvailabilityZoneFilter','RamFilter','CoreFilter','DiskFilter','ComputeFilter','ImagePropertiesFilter','ServerGroupAntiAffinityFilter','ServerGroupAffinityFilter','PciPassthroughFilter','NUMATopologyFilter','AggregateInstanceExtraSpecsFilter']
+  # Nova Scheduler drivers
+  NovaSchedulerAvailableFilters: ["nova.scheduler.filters.all_filters","nova.scheduler.filters.pci_passthrough_filter.PciPassthroughFilter"]
+  # Reserved memory on the hypervisor
+  NovaReservedHostMemory: 16384
+  # Enable iSCSI MultiPathD in the compute nodes
+  NovaLibvirtVolumeUseMultipath: true
+  # Enable IPv6
+  NovaIPv6: true

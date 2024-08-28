@@ -1,0 +1,148 @@
+# title: Enable SSL on OpenStack Public Endpoints
+# description: |
+#   Use this environment to pass in certificates for SSL deployments.
+#   For these values to take effect, one of the tls-endpoints-*.yaml environments
+#   must also be used.
+parameter_defaults:
+  # The content of the SSL certificate (without Key) in PEM format.
+  # Type: string
+  SSLCertificate: |
+    -----BEGIN CERTIFICATE-----
+    MIIGxzCCBa+gAwIBAgIQA7KSbKAKcKTYXD/G6uKtejANBgkqhkiG9w0BAQsFADBN
+    MQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMScwJQYDVQQDEx5E
+    aWdpQ2VydCBTSEEyIFNlY3VyZSBTZXJ2ZXIgQ0EwHhcNMTkwMjA1MDAwMDAwWhcN
+    MjEwMjA1MTIwMDAwWjCBiDELMAkGA1UEBhMCU0UxEjAQBgNVBAgTCVN0b2NraG9s
+    bTESMBAGA1UEBxMJU3RvY2tob2xtMREwDwYDVQQKEwhFcmljc3NvbjEUMBIGA1UE
+    CxMLSVQgU0VSVklDRVMxKDAmBgNVBAMTH2Nsb3VkMTJhLmF0aHRlbS5lZWkuZXJp
+    Y3Nzb24uc2UwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCrotL+zUue
+    K2MHTFGf1j87ZlDud7TZhR/874GG0Z8Cc0GkgXAsnc0OGifT47ZJgj8qMlj3pkXl
+    1x5SptPgCWav4QaZEANDQHI+raCvPjNoMxSIlkqhkamwwdjAgE/nh0Vi2zxH58t9
+    IIJEjFSFU72cN6jw1/MSw9DRGyvDydQtMbBzc1KGUMH+sjPPKfIolzu83KwxA+q8
+    gbF+Xn1Pvuzb4Gm5PLerEhvt72qNW8g3QBfCLQIuoIvvKHkFp8yYngZ0TANovJ+L
+    xroswN+YqVvHygnwm8KDmiE0I53nEbBVr+d+hcouRfYHdnP4RHD9E6DTgXLG0JOf
+    56CFoGT/J2nTAgMBAAGjggNlMIIDYTAfBgNVHSMEGDAWgBQPgGEcgjFh1S8o541G
+    OLQs4cbZ4jAdBgNVHQ4EFgQU1HmO+aXPZrtX6ET6T7qaE8giyb8wKgYDVR0RBCMw
+    IYIfY2xvdWQxMmEuYXRodGVtLmVlaS5lcmljc3Nvbi5zZTAOBgNVHQ8BAf8EBAMC
+    BaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMGsGA1UdHwRkMGIwL6At
+    oCuGKWh0dHA6Ly9jcmwzLmRpZ2ljZXJ0LmNvbS9zc2NhLXNoYTItZzYuY3JsMC+g
+    LaArhilodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vc3NjYS1zaGEyLWc2LmNybDBM
+    BgNVHSAERTBDMDcGCWCGSAGG/WwBATAqMCgGCCsGAQUFBwIBFhxodHRwczovL3d3
+    dy5kaWdpY2VydC5jb20vQ1BTMAgGBmeBDAECAjB8BggrBgEFBQcBAQRwMG4wJAYI
+    KwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmRpZ2ljZXJ0LmNvbTBGBggrBgEFBQcwAoY6
+    aHR0cDovL2NhY2VydHMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0U0hBMlNlY3VyZVNl
+    cnZlckNBLmNydDAJBgNVHRMEAjAAMIIBfgYKKwYBBAHWeQIEAgSCAW4EggFqAWgA
+    dgCkuQmQtBhYFIe7E6LMZ3AKPDWYBPkb37jjd80OyA3cEAAAAWi+G4C3AAAEAwBH
+    MEUCIQCbWLi69Ey2QT/UqVzTMcJt0FQBYzMKE2AwHyD7bzDDtAIgLBnpxV6cukti
+    BDE/eHGntykUfvMrp4VP1Nsg0a6pP/wAdwCHdb/nWXz4jEOZX73zbv9WjUdWNv9K
+    tWDBtOr/XqCDDwAAAWi+G4GMAAAEAwBIMEYCIQDXgM/pfEYqYoT0ZmAS0nSUkamm
+    EeQo3VbsBf6XwFv+/AIhAPLKfPXCXZ/M97qHBb61XMUxBhY3TtNZx2xcS7UlmRPh
+    AHUAu9nfvB+KcbWTlCOXqpJ7RzhXlQqrUugakJZkNo4e0YUAAAFovhuArgAABAMA
+    RjBEAiADQj2T8TyGqrXwYSg9vn/Ds8leEDrKwMgz1earqRspKgIgTByPxMfR6NuC
+    NsgA++J4PxI5aAs2IEkX3fqkI6xi2NEwDQYJKoZIhvcNAQELBQADggEBALcR1CiK
+    wl8EL5tW6Ci3xdJUzieDxnQizFHMRdgP4fRnAcT2/QKvQtg54Z5EHxAOFhHaLXf7
+    vGh3gZAnRqxKNRj1Ie+BAqNc5tMsEesa826BIEGv1zdYbz6DoDE8eiX61qyWSu1F
+    u6ssyNh9Ci17fQZBk68XVp6LNdzb/+4LsjM22wRw1/Xn/8YEY0bD1jr+58RuMf3X
+    GpvU3n+f6u6d1cNew3/WPy7H7zNgNBWFg9B7IjHvfxcC2abH0IA+Ph22cp70bdQM
+    He/jJpopv5UbItbxWSjNs/6+e8/CpGF2PKFXntdc8PHhPUb32hIs5c1/VmhQMMiR
+    CILat+fcZn14b5s=
+    -----END CERTIFICATE-----
+
+  # The content of an SSL intermediate CA certificate in PEM format.
+  # Type: string
+  SSLIntermediateCertificate: |
+    -----BEGIN CERTIFICATE-----
+    MIIElDCCA3ygAwIBAgIQAf2j627KdciIQ4tyS8+8kTANBgkqhkiG9w0BAQsFADBh
+    MQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3
+    d3cuZGlnaWNlcnQuY29tMSAwHgYDVQQDExdEaWdpQ2VydCBHbG9iYWwgUm9vdCBD
+    QTAeFw0xMzAzMDgxMjAwMDBaFw0yMzAzMDgxMjAwMDBaME0xCzAJBgNVBAYTAlVT
+    MRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxJzAlBgNVBAMTHkRpZ2lDZXJ0IFNIQTIg
+    U2VjdXJlIFNlcnZlciBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEB
+    ANyuWJBNwcQwFZA1W248ghX1LFy949v/cUP6ZCWA1O4Yok3wZtAKc24RmDYXZK83
+    nf36QYSvx6+M/hpzTc8zl5CilodTgyu5pnVILR1WN3vaMTIa16yrBvSqXUu3R0bd
+    KpPDkC55gIDvEwRqFDu1m5K+wgdlTvza/P96rtxcflUxDOg5B6TXvi/TC2rSsd9f
+    /ld0Uzs1gN2ujkSYs58O09rg1/RrKatEp0tYhG2SS4HD2nOLEpdIkARFdRrdNzGX
+    kujNVA075ME/OV4uuPNcfhCOhkEAjUVmR7ChZc6gqikJTvOX6+guqw9ypzAO+sf0
+    /RR3w6RbKFfCs/mC/bdFWJsCAwEAAaOCAVowggFWMBIGA1UdEwEB/wQIMAYBAf8C
+    AQAwDgYDVR0PAQH/BAQDAgGGMDQGCCsGAQUFBwEBBCgwJjAkBggrBgEFBQcwAYYY
+    aHR0cDovL29jc3AuZGlnaWNlcnQuY29tMHsGA1UdHwR0MHIwN6A1oDOGMWh0dHA6
+    Ly9jcmwzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEdsb2JhbFJvb3RDQS5jcmwwN6A1
+    oDOGMWh0dHA6Ly9jcmw0LmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEdsb2JhbFJvb3RD
+    QS5jcmwwPQYDVR0gBDYwNDAyBgRVHSAAMCowKAYIKwYBBQUHAgEWHGh0dHBzOi8v
+    d3d3LmRpZ2ljZXJ0LmNvbS9DUFMwHQYDVR0OBBYEFA+AYRyCMWHVLyjnjUY4tCzh
+    xtniMB8GA1UdIwQYMBaAFAPeUDVW0Uy7ZvCj4hsbw5eyPdFVMA0GCSqGSIb3DQEB
+    CwUAA4IBAQAjPt9L0jFCpbZ+QlwaRMxp0Wi0XUvgBCFsS+JtzLHgl4+mUwnNqipl
+    5TlPHoOlblyYoiQm5vuh7ZPHLgLGTUq/sELfeNqzqPlt/yGFUzZgTHbO7Djc1lGA
+    8MXW5dRNJ2Srm8c+cftIl7gzbckTB+6WohsYFfZcTEDts8Ls/3HB40f/1LkAtDdC
+    2iDJ6m6K7hQGrn2iWZiIqBtvLfTyyRRfJs8sjX7tN8Cp1Tm5gr8ZDOo0rwAhaPit
+    c+LJMto4JQtV05od8GiG7S5BNO98pVAdvzr508EIDObtHopYJeS4d60tbvVS3bR0
+    j6tJLp07kzQoH3jOlOrHvdPJbRzeXDLz
+    -----END CERTIFICATE-----
+    -----BEGIN CERTIFICATE-----
+    MIIDrzCCApegAwIBAgIQCDvgVpBCRrGhdWrJWZHHSjANBgkqhkiG9w0BAQUFADBh
+    MQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3
+    d3cuZGlnaWNlcnQuY29tMSAwHgYDVQQDExdEaWdpQ2VydCBHbG9iYWwgUm9vdCBD
+    QTAeFw0wNjExMTAwMDAwMDBaFw0zMTExMTAwMDAwMDBaMGExCzAJBgNVBAYTAlVT
+    MRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5j
+    b20xIDAeBgNVBAMTF0RpZ2lDZXJ0IEdsb2JhbCBSb290IENBMIIBIjANBgkqhkiG
+    9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4jvhEXLeqKTTo1eqUKKPC3eQyaKl7hLOllsB
+    CSDMAZOnTjC3U/dDxGkAV53ijSLdhwZAAIEJzs4bg7/fzTtxRuLWZscFs3YnFo97
+    nh6Vfe63SKMI2tavegw5BmV/Sl0fvBf4q77uKNd0f3p4mVmFaG5cIzJLv07A6Fpt
+    43C/dxC//AH2hdmoRBBYMql1GNXRor5H4idq9Joz+EkIYIvUX7Q6hL+hqkpMfT7P
+    T19sdl6gSzeRntwi5m3OFBqOasv+zbMUZBfHWymeMr/y7vrTC0LUq7dBMtoM1O/4
+    gdW7jVg/tRvoSSiicNoxBN33shbyTApOB6jtSj1etX+jkMOvJwIDAQABo2MwYTAO
+    BgNVHQ8BAf8EBAMCAYYwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUA95QNVbR
+    TLtm8KPiGxvDl7I90VUwHwYDVR0jBBgwFoAUA95QNVbRTLtm8KPiGxvDl7I90VUw
+    DQYJKoZIhvcNAQEFBQADggEBAMucN6pIExIK+t1EnE9SsPTfrgT1eXkIoyQY/Esr
+    hMAtudXH/vTBH1jLuG2cenTnmCmrEbXjcKChzUyImZOMkXDiqw8cvpOp/2PV5Adg
+    06O/nVsJ8dWO41P0jmP6P6fbtGbfYmbW0W5BjfIttep3Sp+dWOIrWcBAI+0tKIJF
+    PnlUkiaY4IBIqDfv8NZ5YBberOgOzW6sRBc4L0na4UU+Krk2U886UAb3LujEV0ls
+    YSEY1QSteDwsOoBrp+uvFRTp2InBuThs4pFsiv9kuXclVzDAGySj4dzp30d8tbQk
+    CAUw7C29C79Fv1C5qfPrmAESrciIxpg0X40KPMbp1ZWVbd4=
+    -----END CERTIFICATE-----
+
+  # The content of the SSL Key in PEM format.
+  # Mandatory. This parameter must be set by the user.
+  # Type: string
+  SSLKey: |
+    -----BEGIN PRIVATE KEY-----
+    MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCrotL+zUueK2MH
+    TFGf1j87ZlDud7TZhR/874GG0Z8Cc0GkgXAsnc0OGifT47ZJgj8qMlj3pkXl1x5S
+    ptPgCWav4QaZEANDQHI+raCvPjNoMxSIlkqhkamwwdjAgE/nh0Vi2zxH58t9IIJE
+    jFSFU72cN6jw1/MSw9DRGyvDydQtMbBzc1KGUMH+sjPPKfIolzu83KwxA+q8gbF+
+    Xn1Pvuzb4Gm5PLerEhvt72qNW8g3QBfCLQIuoIvvKHkFp8yYngZ0TANovJ+Lxros
+    wN+YqVvHygnwm8KDmiE0I53nEbBVr+d+hcouRfYHdnP4RHD9E6DTgXLG0JOf56CF
+    oGT/J2nTAgMBAAECggEAReDCuo5mrPzJEp2V1ddqYwqjBJOkA7NZdKcmOvd5H4xB
+    O3KfcurEI2uur2vUOVVX1hwtcJY3ev38EHZvaJUrQ4wAHa0RRv4kBTS3aOGQGGpD
+    f+CAfgtJ5PbnAmi7H25JZ5gOkM/kXwsvPi1L9ARF/CYFGBkzk345tAi15r5zLfqU
+    NCjI5rmxK3Hg3v+iHhx0JjL3cVn8T1gVOeswB+RBddCAGzxF0chyfwaldNChdDlK
+    Dweg5ywdauVz6PGuPgSGzyoxp1Ciqo+TyeEMg82WN1BI1VqwVaG5MTi/KmwuDziz
+    nvnZYgCNMoIuaYQrdWpZ+KZvqz9rMJIjAnoJaHhX4QKBgQDX5eMfZoEf0lVeOaqY
+    9v5KTkw/fMQZOkrpJAljRWSpnDMUVJJeB6S8OZ13Szzk0DN7hH2Vkjdjc3oVHvsq
+    SYMaps4nhsr+9KQXYbkwCuOvWprgBO0pq/zX12xOkW+odaycXmN6aDokBA0x8QFP
+    6RbDYn9gQi8A3noWzVOly9JI+QKBgQDLhD9FCEKxCKk94wQbLW2N6WHMgvVUf7wf
+    DHDA5bfVlUeJb60fV35zCGBCtK2OQL2u8neuU1RVG2Hz7f1BMlB4NhmqXE8ipEcD
+    zGw7buVpcshZDVz9RjMp5wLy93+GPXmaw0ig5+88ilDIfQTyllIvXmQRPEc/IVJV
+    AH9x+rBoKwKBgDUY7tDsLtmaqzAvUouoQ0YXF52Nm9TwhzfrivuFN4qXReC8I/tI
+    OfWo3ddXA7Tql57LKO++NC0bW20SX4c46SuG1rDV79rgY/L0L81nADRCPlDWJVXY
+    XKjg7FwuXJ27wyX5+NFEDPiKnownz8DNfLG06crMvC6kiLZO7UGbbS5RAoGAHh9A
+    zhLe7B0AD6zeGreqk2qLkx1++ja9vUq2FZbqkq45nFnvIchtatE+jiD33yot6Qry
+    M9cZkE8xPE1pQpET3/cB7XkkLVhrOmCzVEiho+3dQXD85m/Res46XYPMWC4ZJZLp
+    2Qb7HdbLBiGa7dzZ5TDvVq25Tdq8uOAN/OzB12kCgYEAjV4dc1EV2hqUOIgcCD2S
+    8Nwrbybn9BqynwHhnVm6lc7lDzJoAMNiucv+DD9Kd9NKrYKKdUqJFZ4sHwua7LZO
+    sa3bi3F89GGHRubW+k01IpYPnLzDrIzNCtwiQI1rrMZVzl54vS2X3hybUfMSoEw6
+    wQAukqftbTHnuRbMznPJgTs=
+    -----END PRIVATE KEY-----
+
+  # ******************************************************
+  # Static parameters - these are values that must be
+  # included in the environment but should not be changed.
+  # ******************************************************
+  # The filepath of the certificate as it will be stored in the controller.
+  # Type: string
+  DeployedSSLCertificatePath: /etc/pki/tls/private/overcloud_endpoint.pem
+
+  # *********************
+  # End static parameters
+  # *********************
+resource_registry:
+  OS::TripleO::NodeTLSData: /usr/share/openstack-tripleo-heat-templates/puppet/extraconfig/tls/tls-cert-inject.yaml

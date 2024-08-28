@@ -1,0 +1,50 @@
+---
+- hosts: Controller
+
+  tasks:
+  - name: Ensure MySQL InnoDB 'innodb_buffer_pool_size' at 100G
+    ini_file:
+      path: /var/lib/config-data/puppet-generated/mysql/etc/my.cnf.d/galera.cnf
+      section: mysqld
+      option: innodb_buffer_pool_size
+      value: 100G
+    become: yes
+  - name: Ensure MySQL InnoDB equally divided in 1GB instances
+    ini_file:
+      path: /var/lib/config-data/puppet-generated/mysql/etc/my.cnf.d/galera.cnf
+      section: mysqld
+      option: innodb_buffer_pool_instances
+      value: 100
+    become: yes
+  - name: Ensure MySQL disk flush using O_DIRECT
+    ini_file:
+      path: /var/lib/config-data/puppet-generated/mysql/etc/my.cnf.d/galera.cnf
+      section: mysqld
+      option: innodb_flush_method
+      value: O_DIRECT
+    become: yes
+  - name: Ensure MySQL 'net_write_timeout' at 600 seconds
+    ini_file:
+      path: /var/lib/config-data/puppet-generated/mysql/etc/my.cnf.d/galera.cnf
+      section: mysqld
+      option: net_write_timeout
+      value: 600
+    become: yes
+  - name: Ensure MySQL 'net_read_timeout' at 600 seconds
+    ini_file:
+      path: /var/lib/config-data/puppet-generated/mysql/etc/my.cnf.d/galera.cnf
+      section: mysqld
+      option: net_read_timeout
+      value: 600
+    become: yes
+  - name: Ensure MySQL 'connect_timeout' at 28800 seconds
+    ini_file:
+      path: /var/lib/config-data/puppet-generated/mysql/etc/my.cnf.d/galera.cnf
+      section: mysqld
+      option: connect_timeout
+      value: 28800
+    become: yes
+  - name: Restart MySQL Galera cluster
+    shell: pcs resource restart galera-bundle
+    become: yes
+    run_once: true

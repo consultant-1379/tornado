@@ -1,0 +1,289 @@
+{
+    "nodes": [
+        {
+            "arch": "x86_64",
+            "name": "controller-node-0",
+            "mac": [
+              "E4:43:4B:5A:E4:10"
+            ],
+            "pm_addr": "10.224.53.164",
+            "pm_password": "calvin",
+            "pm_type": "ipmi",
+            "pm_user": "root",
+            "cpu": "128",
+            "memory": "1024000",
+            "disk": "1600",
+            "capabilities": "node:controller-node-0,boot_option:local"
+        },
+        {
+            "arch": "x86_64",
+            "name": "controller-node-1",
+            "mac": [
+              "E4:43:4B:5A:D8:40"
+            ],
+            "pm_addr": "10.224.53.165",
+            "pm_password": "calvin",
+            "pm_type": "ipmi",
+            "pm_user": "root",
+            "cpu": "128",
+            "memory": "1024000",
+            "disk": "1600",
+            "capabilities": "node:controller-node-1,boot_option:local"
+        },
+        {
+            "arch": "x86_64",
+            "name": "controller-node-2",
+            "mac": [
+              "E4:43:4B:5A:D5:60"
+            ],
+            "pm_addr": "10.224.53.166",
+            "pm_password": "calvin",
+            "pm_type": "ipmi",
+            "pm_user": "root",
+            "cpu": "128",
+            "memory": "1024000",
+            "disk": "1600",
+            "capabilities": "node:controller-node-2,boot_option:local"
+        },
+        {
+            "arch": "x86_64",
+            "name": "compute-node-std-0",
+            "mac": [
+              "E4:43:4B:5B:43:B0"
+            ],
+            "pm_addr": "10.224.53.167",
+            "pm_password": "calvin",
+            "pm_type": "ipmi",
+            "pm_user": "root",
+            "cpu": "128",
+            "memory": "1024000",
+            "disk": "1600",
+            "capabilities": "node:compute-node-std-0,boot_option:local"
+        },
+        {
+            "arch": "x86_64",
+            "name": "compute-node-std-1",
+            "mac": [
+              "E4:43:4B:5A:D5:A0"
+            ],
+            "pm_addr": "10.224.53.168",
+            "pm_password": "calvin",
+            "pm_type": "ipmi",
+            "pm_user": "root",
+            "cpu": "128",
+            "memory": "1024000",
+            "disk": "1600",
+            "capabilities": "node:compute-node-std-1,boot_option:local"
+        },
+        {
+            "arch": "x86_64",
+            "name": "compute-node-std-2",
+            "mac": [
+              "E4:43:4B:5B:44:30"
+            ],
+            "pm_addr": "10.224.53.169",
+            "pm_password": "calvin",
+            "pm_type": "ipmi",
+            "pm_user": "root",
+            "cpu": "128",
+            "memory": "1024000",
+            "disk": "1600",
+            "capabilities": "node:compute-node-std-2,boot_option:local"
+        },
+        {
+            "arch": "x86_64",
+            "name": "compute-node-std-3",
+            "mac": [
+              "E4:43:4B:5B:45:50"
+            ],
+            "pm_addr": "10.224.53.170",
+            "pm_password": "calvin",
+            "pm_type": "ipmi",
+            "pm_user": "root",
+            "cpu": "128",
+            "memory": "1024000",
+            "disk": "1600",
+            "capabilities": "node:compute-node-std-3,boot_option:local"
+        },
+        {
+            "arch": "x86_64",
+            "name": "compute-node-std-4",
+            "mac": [
+              "E4:43:4B:5B:44:20"
+            ],
+            "pm_addr": "10.224.53.171",
+            "pm_password": "calvin",
+            "pm_type": "ipmi",
+            "pm_user": "root",
+            "cpu": "128",
+            "memory": "1024000",
+            "disk": "1600",
+            "capabilities": "node:compute-node-std-4,boot_option:local"
+        },
+        {
+            "arch": "x86_64",
+            "name": "compute-node-std-5",
+            "mac": [
+              "E4:43:4B:5A:E1:70"
+            ],
+            "pm_addr": "10.224.53.172",
+            "pm_password": "calvin",
+            "pm_type": "ipmi",
+            "pm_user": "root",
+            "cpu": "128",
+            "memory": "1024000",
+            "disk": "1600",
+            "capabilities": "node:compute-node-std-5,boot_option:local"
+        },
+        {
+            "arch": "x86_64",
+            "name": "compute-node-std-6",
+            "mac": [
+              "E4:43:4B:5B:44:40"
+            ],
+            "pm_addr": "10.224.53.173",
+            "pm_password": "calvin",
+            "pm_type": "ipmi",
+            "pm_user": "root",
+            "cpu": "128",
+            "memory": "1024000",
+            "disk": "1600",
+            "capabilities": "node:compute-node-std-6,boot_option:local"
+        },
+        {
+            "arch": "x86_64",
+            "name": "compute-node-std-7",
+            "mac": [
+              "E4:43:4B:5A:E1:60"
+            ],
+            "pm_addr": "10.224.53.174",
+            "pm_password": "calvin",
+            "pm_type": "ipmi",
+            "pm_user": "root",
+            "cpu": "128",
+            "memory": "1024000",
+            "disk": "1600",
+            "capabilities": "node:compute-node-std-7,boot_option:local"
+        },
+        {
+            "arch": "x86_64",
+            "name": "compute-node-std-8",
+            "mac": [
+              "E4:43:4B:5A:DF:E0"
+            ],
+            "pm_addr": "10.224.53.175",
+            "pm_password": "calvin",
+            "pm_type": "ipmi",
+            "pm_user": "root",
+            "cpu": "128",
+            "memory": "1024000",
+            "disk": "1600",
+            "capabilities": "node:compute-node-std-8,boot_option:local"
+        },
+        {
+            "arch": "x86_64",
+            "name": "compute-node-std-9",
+            "mac": [
+              "E4:43:4B:5A:E0:50"
+            ],
+            "pm_addr": "10.224.53.176",
+            "pm_password": "calvin",
+            "pm_type": "ipmi",
+            "pm_user": "root",
+            "cpu": "128",
+            "memory": "1024000",
+            "disk": "1600",
+            "capabilities": "node:compute-node-std-9,boot_option:local"
+        },
+        {
+            "arch": "x86_64",
+            "name": "compute-node-std-10",
+            "mac": [
+              "E4:43:4B:5A:D5:F0"
+            ],
+            "pm_addr": "10.224.53.177",
+            "pm_password": "calvin",
+            "pm_type": "ipmi",
+            "pm_user": "root",
+            "cpu": "128",
+            "memory": "1024000",
+            "disk": "1600",
+            "capabilities": "node:compute-node-std-10,boot_option:local"
+        },
+        {
+            "arch": "x86_64",
+            "name": "compute-node-std-ha-0",
+            "mac": [
+              "E4:43:4B:5A:E4:40"
+            ],
+            "pm_addr": "10.224.53.178",
+            "pm_password": "calvin",
+            "pm_type": "ipmi",
+            "pm_user": "root",
+            "cpu": "128",
+            "memory": "1024000",
+            "disk": "1600",
+            "capabilities": "node:compute-node-std-ha-0,boot_option:local"
+        },
+        {
+            "arch": "x86_64",
+            "name": "compute-node-std-ha-1",
+            "mac": [
+              "E4:43:4B:5A:E2:50"
+            ],
+            "pm_addr": "10.224.53.179",
+            "pm_password": "calvin",
+            "pm_type": "ipmi",
+            "pm_user": "root",
+            "cpu": "128",
+            "memory": "1024000",
+            "disk": "1600",
+            "capabilities": "node:compute-node-std-ha-1,boot_option:local"
+        },
+        {
+            "arch": "x86_64",
+            "name": "compute-node-hp-0",
+            "mac": [
+              "E4:43:4B:5A:DF:C0"
+            ],
+            "pm_addr": "10.224.53.180",
+            "pm_password": "calvin",
+            "pm_type": "ipmi",
+            "pm_user": "root",
+            "cpu": "128",
+            "memory": "1024000",
+            "disk": "1600",
+            "capabilities": "node:compute-node-hp-0,boot_option:local"
+        },
+        {
+            "arch": "x86_64",
+            "name": "compute-node-hp-ha-0",
+            "mac": [
+              "E4:43:4B:5B:3C:50"
+            ],
+            "pm_addr": "10.224.53.181",
+            "pm_password": "calvin",
+            "pm_type": "ipmi",
+            "pm_user": "root",
+            "cpu": "128",
+            "memory": "1024000",
+            "disk": "1600",
+            "capabilities": "node:compute-node-hp-ha-0,boot_option:local"
+        },
+        {
+            "arch": "x86_64",
+            "name": "compute-node-hp-ha-1",
+            "mac": [
+              "E4:43:4B:5A:D8:20"
+            ],
+            "pm_addr": "10.224.53.182",
+            "pm_password": "calvin",
+            "pm_type": "ipmi",
+            "pm_user": "root",
+            "cpu": "128",
+            "memory": "1024000",
+            "disk": "1600",
+            "capabilities": "node:compute-node-hp-ha-1,boot_option:local"
+        }
+    ]
+}

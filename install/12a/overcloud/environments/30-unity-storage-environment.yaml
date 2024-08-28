@@ -1,0 +1,16 @@
+resource_registry:
+  OS::TripleO::Services::CinderBackendDellEMCUnity: /usr/share/openstack-tripleo-heat-templates/puppet/services/cinder-backend-dellemc-unity.yaml
+
+parameter_defaults:
+  CinderEnableIscsiBackend: false
+  CinderEnableRbdBackend: false
+  CinderEnableNfsBackend: false
+  NovaEnableRbdBackend: false
+  CinderEnableDellEMCUnityBackend: true
+  CinderDellEMCUnityBackendName: 'tripleo_dellemc_unity'
+  CinderDellEMCUnitySanIp: '10.224.53.185'
+  CinderDellEMCUnitySanLogin: 'unitycinder'
+  CinderDellEMCUnitySanPassword: 'Beter00t#'
+  CinderDellEMCUnityStorageProtocol: 'iSCSI'
+  CinderDellEMCUnityIoPorts: 'spa_iom_0_eth1,spb_iom_0_eth1,spa_iom_0_eth0,spb_iom_0_eth0'
+  CinderDellEMCUnityStoragePoolNames: 'cloud_12a_pool'

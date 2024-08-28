@@ -1,0 +1,395 @@
+resource_registry:
+  OS::TripleO::Controller::Net::SoftwareConfig:           ../nic-configs/controller.yaml
+  OS::TripleO::Compute::Net::SoftwareConfig:              ../nic-configs/compute.yaml
+  OS::TripleO::ComputeHA::Net::SoftwareConfig:            ../nic-configs/compute.yaml
+  OS::TripleO::ComputeHP::Net::SoftwareConfig:            ../nic-configs/compute.yaml
+  OS::TripleO::ComputeHPHA::Net::SoftwareConfig:          ../nic-configs/compute.yaml
+
+  OS::TripleO::Controller::Ports::ExternalPort:           /usr/share/openstack-tripleo-heat-templates/network/ports/external_from_pool.yaml
+  OS::TripleO::Controller::Ports::InternalApiPort:        /usr/share/openstack-tripleo-heat-templates/network/ports/internal_api_from_pool.yaml
+  OS::TripleO::Controller::Ports::StoragePort:            /usr/share/openstack-tripleo-heat-templates/network/ports/storage_from_pool.yaml
+  OS::TripleO::Controller::Ports::StorageMgmtPort:        /usr/share/openstack-tripleo-heat-templates/network/ports/storage_mgmt_from_pool.yaml
+  OS::TripleO::Controller::Ports::StorageNfsPort:         /usr/share/openstack-tripleo-heat-templates/network/ports/storage_nfs_from_pool.yaml
+  OS::TripleO::Controller::Ports::TenantPort:             /usr/share/openstack-tripleo-heat-templates/network/ports/tenant_from_pool.yaml
+
+  OS::TripleO::Compute::Ports::ExternalPort:              /usr/share/openstack-tripleo-heat-templates/network/ports/noop.yaml
+  OS::TripleO::Compute::Ports::InternalApiPort:           /usr/share/openstack-tripleo-heat-templates/network/ports/internal_api_from_pool.yaml
+  OS::TripleO::Compute::Ports::StoragePort:               /usr/share/openstack-tripleo-heat-templates/network/ports/storage_from_pool.yaml
+  OS::TripleO::Compute::Ports::StorageMgmtPort:           /usr/share/openstack-tripleo-heat-templates/network/ports/storage_mgmt_from_pool.yaml
+  OS::TripleO::Compute::Ports::StorageNfsPort:            /usr/share/openstack-tripleo-heat-templates/network/ports/storage_nfs_from_pool.yaml
+  OS::TripleO::Compute::Ports::TenantPort:                /usr/share/openstack-tripleo-heat-templates/network/ports/tenant_from_pool.yaml
+
+  OS::TripleO::ComputeHA::Ports::ExternalPort:            /usr/share/openstack-tripleo-heat-templates/network/ports/noop.yaml
+  OS::TripleO::ComputeHA::Ports::InternalApiPort:         /usr/share/openstack-tripleo-heat-templates/network/ports/internal_api_from_pool.yaml
+  OS::TripleO::ComputeHA::Ports::StoragePort:             /usr/share/openstack-tripleo-heat-templates/network/ports/storage_from_pool.yaml
+  OS::TripleO::ComputeHA::Ports::StorageMgmtPort:         /usr/share/openstack-tripleo-heat-templates/network/ports/storage_mgmt_from_pool.yaml
+  OS::TripleO::ComputeHA::Ports::StorageNfsPort:          /usr/share/openstack-tripleo-heat-templates/network/ports/storage_nfs_from_pool.yaml
+  OS::TripleO::ComputeHA::Ports::TenantPort:              /usr/share/openstack-tripleo-heat-templates/network/ports/tenant_from_pool.yaml
+
+  OS::TripleO::ComputeHP::Ports::ExternalPort:            /usr/share/openstack-tripleo-heat-templates/network/ports/noop.yaml
+  OS::TripleO::ComputeHP::Ports::InternalApiPort:         /usr/share/openstack-tripleo-heat-templates/network/ports/internal_api_from_pool.yaml
+  OS::TripleO::ComputeHP::Ports::StoragePort:             /usr/share/openstack-tripleo-heat-templates/network/ports/storage_from_pool.yaml
+  OS::TripleO::ComputeHP::Ports::StorageMgmtPort:         /usr/share/openstack-tripleo-heat-templates/network/ports/storage_mgmt_from_pool.yaml
+  OS::TripleO::ComputeHP::Ports::StorageNfsPort:          /usr/share/openstack-tripleo-heat-templates/network/ports/storage_nfs_from_pool.yaml
+  OS::TripleO::ComputeHP::Ports::TenantPort:              /usr/share/openstack-tripleo-heat-templates/network/ports/tenant_from_pool.yaml
+
+  OS::TripleO::ComputeHPHA::Ports::ExternalPort:          /usr/share/openstack-tripleo-heat-templates/network/ports/noop.yaml
+  OS::TripleO::ComputeHPHA::Ports::InternalApiPort:       /usr/share/openstack-tripleo-heat-templates/network/ports/internal_api_from_pool.yaml
+  OS::TripleO::ComputeHPHA::Ports::StoragePort:           /usr/share/openstack-tripleo-heat-templates/network/ports/storage_from_pool.yaml
+  OS::TripleO::ComputeHPHA::Ports::StorageMgmtPort:       /usr/share/openstack-tripleo-heat-templates/network/ports/storage_mgmt_from_pool.yaml
+  OS::TripleO::ComputeHPHA::Ports::StorageNfsPort:        /usr/share/openstack-tripleo-heat-templates/network/ports/storage_nfs_from_pool.yaml
+  OS::TripleO::ComputeHPHA::Ports::TenantPort:            /usr/share/openstack-tripleo-heat-templates/network/ports/tenant_from_pool.yaml
+
+  # VIP ports
+  OS::TripleO::Network::Ports::InternalApiVipPort:        /usr/share/openstack-tripleo-heat-templates/network/ports/internal_api.yaml
+  OS::TripleO::Network::Ports::StorageVipPort:            /usr/share/openstack-tripleo-heat-templates/network/ports/storage.yaml
+  OS::TripleO::Network::Ports::StorageMgmtVipPort:        /usr/share/openstack-tripleo-heat-templates/network/ports/storage_mgmt.yaml
+  OS::TripleO::Network::Ports::ExternalVipPort:           /usr/share/openstack-tripleo-heat-templates/network/ports/external.yaml
+  OS::TripleO::Network::Ports::RedisVipPort:              /usr/share/openstack-tripleo-heat-templates/network/ports/vip.yaml
+
+
+parameter_defaults:
+  # This sets 'external_network_bridge' in l3_agent.ini to an empty string
+  # so that external networks act like provider bridge networks (they
+  # will plug into br-int instead of br-ex)
+  NeutronExternalNetworkBridge: "''"
+
+  # Internal API used for private OpenStack Traffic
+  InternalApiNetCidr: 10.151.110.0/26
+  InternalApiAllocationPools: [{'start': '10.151.110.5', 'end': '10.151.110.60'}]
+  InternalApiNetworkVlanID: 1297
+
+  # Tenant Network Traffic - will be used for VXLAN/GENEVE over VLAN
+  TenantNetCidr: 10.151.111.0/26
+  TenantAllocationPools: [{'start': '10.151.111.5', 'end': '10.151.111.60'}]
+  TenantNetworkVlanID: 1301
+
+  # Unity: iSCSI1 network e.g. Nova/Cinder <--> iSCSI
+  # Ceph: Public Storage network - e.g. Nova/Glance <--> Ceph 
+  StorageNetCidr: 10.151.110.128/26
+  StorageAllocationPools: [{'start': '10.151.110.140', 'end': '10.151.110.190'}]
+  StorageNetworkVlanID: 1299
+
+  # Unity: iSCSI2 network e.g. Nova/Cinder <--> iSCSI
+  # Ceph: Cluster Storage network - i.e. Ceph background cluster/replication
+  StorageMgmtNetCidr: 10.151.110.192/26
+  StorageMgmtAllocationPools: [{'start': '10.151.110.202', 'end': '10.151.110.253'}]
+  StorageMgmtNetworkVlanID: 1300
+
+  # Unity: NFS network e.g. Cinder-Backup/Glance/Nova-Ephemeral <--> NFS
+  # Ceph: none
+  StorageNfsNetCidr: 10.151.109.128/26
+  StorageNfsAllocationPools: [{'start': '10.151.109.140', 'end': '10.151.109.190'}]
+  StorageNfsNetworkVlanID: 1309
+
+  # External Networking Access - Public API Access
+  ExternalNetCidr: 10.32.133.128/26
+  ExternalAllocationPools: [{'start': '10.32.133.130', 'end': '10.32.133.190'}]
+  ExternalNetworkVlanID: 1296
+  # Set to the router gateway on the external network
+  ExternalInterfaceDefaultRoute: 10.32.133.129
+
+  # Add in configuration for the Control Plane
+  ControlPlaneSubnetCidr: "26"
+  ControlPlaneDefaultRoute: 10.151.110.70
+  EC2MetadataIp: 10.151.110.70
+  DnsServers: ['159.107.173.3','159.107.173.12']
+  NtpServer:  ['159.107.173.12','159.107.173.223']
+  InitNTPServer: 159.107.173.12
+
+  # Bonding options for mgmt networks (only active/backup works in a virtual environment)
+  BondInterfaceOvsOptions: 'bond_mode=balance-slb'
+
+  # Bonding options for storage networks (only active/backup works in a virtual environment)
+  BondStorageInterfaceOptions: 'mode=balance-xor xmit_hash_policy=layer3+4 miimon=100'
+
+  # To refresh the overcloud nodes network configuration at every Overcloud Update
+  NetworkDeploymentActions: ['CREATE','UPDATE']
+
+  # VIP addresses
+  PublicVirtualFixedIPs:      [{'ip_address':'10.32.133.137'}]
+  RedisVirtualFixedIPs:       [{'ip_address':'10.151.110.5'}]
+  InternalApiVirtualFixedIPs: [{'ip_address':'10.151.110.6'}]
+  StorageVirtualFixedIPs:     [{'ip_address':'10.151.110.140'}]
+  StorageMgmtVirtualFixedIPs: [{'ip_address':'10.151.110.202'}]
+  #ControlFixedIPs:           [{'ip_address':'192.168.24.88'}]
+
+  ControllerIPs:
+    external:
+    - 10.32.133.138
+    - 10.32.133.139
+    - 10.32.133.140
+    internal_api:
+    - 10.151.110.7
+    - 10.151.110.8
+    - 10.151.110.9
+    storage:
+    - 10.151.110.141
+    - 10.151.110.142
+    - 10.151.110.143
+    storage_mgmt:
+    - 10.151.110.203
+    - 10.151.110.204
+    - 10.151.110.205
+    storage_nfs:
+    - 10.151.109.141
+    - 10.151.109.142
+    - 10.151.109.143
+    tenant:
+    - 10.151.111.5
+    - 10.151.111.6
+    - 10.151.111.7
+  ComputeIPs:
+    internal_api:
+    - 10.151.110.10
+    - 10.151.110.11
+    - 10.151.110.12
+    - 10.151.110.13
+    - 10.151.110.14
+    - 10.151.110.15
+    - 10.151.110.16
+    - 10.151.110.17
+    - 10.151.110.18
+    - 10.151.110.19
+    - 10.151.110.20
+    - 10.151.110.21
+    - 10.151.110.22
+    - 10.151.110.23
+    - 10.151.110.24
+    - 10.151.110.25
+    - 10.151.110.26
+    - 10.151.110.27
+    - 10.151.110.28
+    - 10.151.110.29
+    - 10.151.110.30
+    - 10.151.110.31
+    - 10.151.110.32
+    - 10.151.110.33
+    - 10.151.110.34
+    - 10.151.110.35
+    - 10.151.110.36
+    - 10.151.110.37
+    - 10.151.110.38
+    - 10.151.110.39
+    - 10.151.110.40
+    - 10.151.110.41
+    storage:
+    - 10.151.110.144
+    - 10.151.110.145
+    - 10.151.110.146
+    - 10.151.110.147
+    - 10.151.110.148
+    - 10.151.110.149
+    - 10.151.110.150
+    - 10.151.110.151
+    - 10.151.110.152
+    - 10.151.110.153
+    - 10.151.110.154
+    - 10.151.110.155
+    - 10.151.110.156
+    - 10.151.110.157
+    - 10.151.110.158
+    - 10.151.110.159
+    - 10.151.110.160
+    - 10.151.110.161
+    - 10.151.110.162
+    - 10.151.110.163
+    - 10.151.110.164
+    - 10.151.110.165
+    - 10.151.110.166
+    - 10.151.110.167
+    - 10.151.110.168
+    - 10.151.110.169
+    - 10.151.110.170
+    - 10.151.110.171
+    - 10.151.110.172
+    - 10.151.110.173
+    - 10.151.110.174
+    - 10.151.110.175
+    storage_mgmt:
+    - 10.151.110.206
+    - 10.151.110.207
+    - 10.151.110.208
+    - 10.151.110.209
+    - 10.151.110.210
+    - 10.151.110.211
+    - 10.151.110.212
+    - 10.151.110.213
+    - 10.151.110.214
+    - 10.151.110.215
+    - 10.151.110.216
+    - 10.151.110.217
+    - 10.151.110.218
+    - 10.151.110.219
+    - 10.151.110.220
+    - 10.151.110.221
+    - 10.151.110.222
+    - 10.151.110.223
+    - 10.151.110.224
+    - 10.151.110.225
+    - 10.151.110.226
+    - 10.151.110.227
+    - 10.151.110.228
+    - 10.151.110.229
+    - 10.151.110.230
+    - 10.151.110.231
+    - 10.151.110.232
+    - 10.151.110.233
+    - 10.151.110.234
+    - 10.151.110.235
+    - 10.151.110.235
+    - 10.151.110.237
+    storage_nfs:
+    - 10.151.109.144
+    - 10.151.109.145
+    - 10.151.109.146
+    - 10.151.109.147
+    - 10.151.109.148
+    - 10.151.109.149
+    - 10.151.109.150
+    - 10.151.109.151
+    - 10.151.109.152
+    - 10.151.109.153
+    - 10.151.109.154
+    - 10.151.109.155
+    - 10.151.109.156
+    - 10.151.109.157
+    - 10.151.109.158
+    - 10.151.109.159
+    - 10.151.109.160
+    - 10.151.109.161
+    - 10.151.109.162
+    - 10.151.109.163
+    - 10.151.109.164
+    - 10.151.109.165
+    - 10.151.109.166
+    - 10.151.109.167
+    - 10.151.109.168
+    - 10.151.109.169
+    - 10.151.109.170
+    - 10.151.109.171
+    - 10.151.109.172
+    - 10.151.109.173
+    - 10.151.109.174
+    - 10.151.109.175
+    tenant:
+    - 10.151.111.8
+    - 10.151.111.9
+    - 10.151.111.10
+    - 10.151.111.11
+    - 10.151.111.12
+    - 10.151.111.13
+    - 10.151.111.14
+    - 10.151.111.15
+    - 10.151.111.16
+    - 10.151.111.17
+    - 10.151.111.18
+    - 10.151.111.19
+    - 10.151.111.20
+    - 10.151.111.21
+    - 10.151.111.22
+    - 10.151.111.23
+    - 10.151.111.24
+    - 10.151.111.25
+    - 10.151.111.26
+    - 10.151.111.27
+    - 10.151.111.28
+    - 10.151.111.29
+    - 10.151.111.30
+    - 10.151.111.31
+    - 10.151.111.32
+    - 10.151.111.33
+    - 10.151.111.34
+    - 10.151.111.35
+    - 10.151.111.36
+    - 10.151.111.37
+    - 10.151.111.38
+    - 10.151.111.39
+  ComputeHAIPs:
+    internal_api:
+    - 10.151.110.42
+    - 10.151.110.43
+    - 10.151.110.44
+    - 10.151.110.45
+    storage:
+    - 10.151.110.176
+    - 10.151.110.177
+    - 10.151.110.178
+    - 10.151.110.179
+    storage_mgmt:
+    - 10.151.110.238
+    - 10.151.110.239
+    - 10.151.110.240
+    - 10.151.110.241
+    storage_nfs:
+    - 10.151.109.176
+    - 10.151.109.177
+    - 10.151.109.178
+    - 10.151.109.179
+    tenant:
+    - 10.151.111.40
+    - 10.151.111.41
+    - 10.151.111.42
+    - 10.151.111.43
+  ComputeHPIPs:
+    internal_api:
+    - 10.151.110.46
+    - 10.151.110.47
+    - 10.151.110.48
+    - 10.151.110.49
+    - 10.151.110.50
+    - 10.151.110.51
+    storage:
+    - 10.151.110.180
+    - 10.151.110.181
+    - 10.151.110.182
+    - 10.151.110.183
+    - 10.151.110.184
+    - 10.151.110.185
+    storage_mgmt:
+    - 10.151.110.242
+    - 10.151.110.243
+    - 10.151.110.244
+    - 10.151.110.245
+    - 10.151.110.246
+    - 10.151.110.247
+    storage_nfs:
+    - 10.151.109.180
+    - 10.151.109.181
+    - 10.151.109.182
+    - 10.151.109.183
+    - 10.151.109.184
+    - 10.151.109.185
+    tenant:
+    - 10.151.111.44
+    - 10.151.111.45
+    - 10.151.111.46
+    - 10.151.111.47
+    - 10.151.111.48
+    - 10.151.111.49
+  ComputeHPHAIPs:
+    internal_api:
+    - 10.151.110.52
+    - 10.151.110.53
+    - 10.151.110.54
+    - 10.151.110.55
+    storage:
+    - 10.151.110.186
+    - 10.151.110.187
+    - 10.151.110.188
+    - 10.151.110.189
+    storage_mgmt:
+    - 10.151.110.248
+    - 10.151.110.249
+    - 10.151.110.250
+    - 10.151.110.251
+    storage_nfs:
+    - 10.151.109.186
+    - 10.151.109.187
+    - 10.151.109.188
+    - 10.151.109.189
+    tenant:
+    - 10.151.111.50
+    - 10.151.111.51
+    - 10.151.111.52
+    - 10.151.111.53

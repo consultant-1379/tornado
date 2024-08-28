@@ -1,0 +1,42 @@
+parameter_defaults:
+
+  ComputeParameters:
+    # TODO
+    # amd_iommu=off due to filesystem corruption issue, once fixed remove the KernelArgs Parameter
+    KernelArgs: "amd_iommu=off"
+    # Memory Reservation
+    NovaReservedHostMemory: 16384
+    # Custom Kernel tunables
+    # Network Stack tuning
+    ExtraSysctlSettings:
+        net.core.rmem_max:
+          value: 134217728
+        net.core.wmem_max:
+          value: 134217728
+        net.ipv4.tcp_rmem:
+          value: '4096 87380 134217728'
+        net.ipv4.tcp_wmem:
+          value: '4096 87380 134217728'
+        net.ipv4.tcp_congestion_control:
+          value: htcp
+
+  ComputeHAParameters:
+    # TODO
+    # amd_iommu=off due to filesystem corruption issue, once fixed remove the KernelArgs Parameter
+    KernelArgs: "amd_iommu=off"
+    # Memory Reservation
+    NovaReservedHostMemory: 16384
+    # Custom Kernel tunables
+    # Network Stack tuning
+    ExtraSysctlSettings:
+        net.core.rmem_max:
+          value: 134217728
+        net.core.wmem_max:
+          value: 134217728
+        net.ipv4.tcp_rmem:
+          value: '4096 87380 134217728'
+        net.ipv4.tcp_wmem:
+          value: '4096 87380 134217728'
+        net.ipv4.tcp_congestion_control:
+          value: htcp
+
